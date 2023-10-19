@@ -6,17 +6,46 @@ manifest:
     west-commands: scripts/west-commands.yml
 
   remotes:
-    - name: zephyrproject-rtos
-      url-base: https://github.com/zephyrproject-rtos
+    - name: linkedsemi
+      url-base: https://github.com/linkedsemi
 
   projects:
     - name: zephyr
-      remote: zephyrproject-rtos
-      revision: main
+      remote: linkedsemi
+      revision: a2d54c086e3f2eafc257c3697b9ad1b9
       import:
         # By using name-allowlist we can clone only the modules that are
         # strictly needed by the application.
         name-allowlist:
-          - cmsis      # required by the ARM port
-          - hal_nordic # required by the custom_plank board (Nordic based)
-          - hal_stm32  # required by the nucleo_f302r8 board (STM32 based)
+          - LS_SDK # required by the custom_plank board
+
+    # The following projects revision needs to be consistent of the west.yml in zephyr remote project
+  
+    - name: hal_linkedsemi
+      url: http://10.10.20.8:8000/sw/ls_sdk.git
+      revision: zephyr
+      path: modules/hal/linkedsemi
+      groups:
+        - hal
+
+    - name: cmsis
+      url: https://github.com/zephyrproject-rtos/cmsis.git
+      revision: 74981bf893e8b10931464b9945e2143d99a3f0a3 
+      path: modules/hal/cmsis
+      groups:
+        - hal
+
+    - name: segger
+      url: https://github.com/zephyrproject-rtos/segger.git
+      revision: e2ff2200556e8a8f962921444275c04971a2bb3d
+      path: modules/debug/segger
+      groups:
+        - debug
+
+    - name: tinycrypt
+      url: https://github.com/zephyrproject-rtos/tinycrypt.git
+      revision: 3e9a49d2672ec01435ffbf0d788db6d95ef28de0
+      path: modules/crypto/tinycrypt
+      groups:
+        - crypto
+    
